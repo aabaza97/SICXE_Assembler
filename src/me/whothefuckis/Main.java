@@ -5,6 +5,7 @@ import me.whothefuckis.manager.Parser;
 import me.whothefuckis.manager.OutputGenerator;
 import me.whothefuckis.manager.ObjectCodeGenerator;
 import me.whothefuckis.manager.Writer;
+import me.whothefuckis.model.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class Main {
 
         ObjectCodeGenerator objectCodeGenerator = generateObjectCode();
 
-        start(outputGenerator, objectCodeGenerator);
+        assemble(outputGenerator, objectCodeGenerator);
 
     }
 
@@ -45,6 +46,7 @@ public class Main {
      * */
     public static void parseFile(ArrayList<String> instructionsList, Parser.Mode parsingMode) {
         Parser.getInstance().parse(instructionsList, parsingMode);
+        SymbolTable.getInstance().printAll();
     }
 
     private static OutputGenerator generateOutputFile(String fileParentPath, String fileName) {
@@ -55,7 +57,7 @@ public class Main {
         return outputGenerator;
     }
 
-    private static void start(OutputGenerator outputGenerator, ObjectCodeGenerator objectCodeGenerator) {
+    private static void assemble(OutputGenerator outputGenerator, ObjectCodeGenerator objectCodeGenerator) {
         Writer fileWriter = new Writer(outputGenerator);
         fileWriter.writeAddressFile();
         fileWriter.writeSymbolFile();

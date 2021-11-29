@@ -14,7 +14,7 @@ public class RegisterTable {
     public static final String PC = "PC";
     public static final String SW = "SW";
 
-    private static HashMap<String, Register> registers = new HashMap<>();
+    private static final HashMap<String, Register> registers = new HashMap<>();
 
     public static String getRegisterName(int registerNumber) {
         return switch (registerNumber) {

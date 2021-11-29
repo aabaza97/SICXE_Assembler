@@ -176,7 +176,7 @@ public final class ObjectCodeGenerator {
     }
 
     /**
-     * @param instruction parsed
+     * @param instruction: Parsed Instruction
      * @return object code for a single instruction of format four
      */
     private String generateFormatFour(Instruction instruction) {
@@ -253,7 +253,13 @@ public final class ObjectCodeGenerator {
                     else
                         displacement = PC_LAST;
                 } else
-                    displacement = Integer.parseInt(operand);
+                    try {
+                        displacement = Integer.parseInt(operand);
+                    } catch (Exception error) {
+                        //todo: fix addressing 
+                        displacement = SymbolTable.getInstance().getSymbol(operand).getAddress();
+                    }
+
                 return String.valueOf(b) + p + e;
             }
         }

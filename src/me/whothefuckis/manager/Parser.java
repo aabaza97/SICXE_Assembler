@@ -167,10 +167,10 @@ public class Parser {
             while (operandsTokenizer.hasMoreTokens())
                 operandsList[i++] = operandsTokenizer.nextToken();
         }
-        if (mnemonic.equals(DirTable.BASE)) {
-            hasBaseDirective = true;
-            baseRegisterValue = Integer.parseInt(operandsList[FIRST_OPERAND]);
-        }
+//        if (mnemonic.equals(DirTable.BASE)) {
+//            hasBaseDirective = true;
+//            baseRegisterValue = Integer.parseInt(operandsList[FIRST_OPERAND]);
+//        }
         return new Instruction(label, mnemonic, operandsList[FIRST_OPERAND], operandsList[SECOND_OPERAND], comment);
     }
 

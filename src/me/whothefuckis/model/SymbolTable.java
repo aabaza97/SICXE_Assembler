@@ -40,7 +40,17 @@ public class SymbolTable {
         return symbolTable;
     }
 
+    public void printAll() {
+        for (String name: symbolTable.keySet()) {
+            String key = name.toString();
+            String value = symbolTable.get(name).toString();
+            System.out.println(key + " " + value);
+        }
+    }
+
     public Symbol getSymbol(@NotNull String label) {
+        //TODO: handle @, #,
+
         return symbolTable.get(label);
     }
 

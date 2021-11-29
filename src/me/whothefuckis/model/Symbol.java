@@ -42,4 +42,8 @@ public class Symbol {
         return address;
     }
 
+    @Override
+    public String toString() {
+        return ", address=" + address;
+    }
 }

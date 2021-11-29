@@ -8,7 +8,6 @@ public class Instruction {
     Properties
     ====================================================================================================================
     * */
-
     private String label;
     private String mnemonic;
     private String firstOperand;

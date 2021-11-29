@@ -1,51 +1,65 @@
 package me.whothefuckis;
 
-import java.io.*;
-import java.util.Scanner;
+import me.whothefuckis.manager.Loader;
+import me.whothefuckis.manager.Parser;
+import me.whothefuckis.manager.OutputGenerator;
+import me.whothefuckis.manager.ObjectCodeGenerator;
+import me.whothefuckis.manager.Writer;
+
+import java.util.ArrayList;
 
 
 public class Main {
-
-    public static PrintStream stream = System.out;
-    public static String filePath = "";
-
-    /**
-     * Just a testing variable... blabblaalansdfalk*/
-    static String line = "";
-
     public static void main(String[] args) {
-        BufferedReader bufferedReader;
-        FileReader reader;
+        Loader fileLoader = loadFile();
 
-        Main.getFile();
+        parseFile(fileLoader.loadFile(), Parser.Mode.FREE);
 
-        try {
-            reader = new FileReader(filePath);
-            bufferedReader = new BufferedReader(reader);
+        OutputGenerator outputGenerator = generateOutputFile(fileLoader.getFileParentPath(), fileLoader.getFileName());
 
-            line = bufferedReader.readLine();
-            stream.println(line.split("\t")[1]);
-        } catch (Exception e) {
+        ObjectCodeGenerator objectCodeGenerator = generateObjectCode();
 
-        }
+        start(outputGenerator, objectCodeGenerator);
+
+    }
+
+    private static ObjectCodeGenerator generateObjectCode() {
+        ObjectCodeGenerator objectCodeGenerator = new ObjectCodeGenerator();
+        objectCodeGenerator.generate();
+        objectCodeGenerator.terminal.show();
+        return objectCodeGenerator;
     }
 
 
+    /**
+     * Asks the user to enter the Input file.
+     * */
+    public static Loader loadFile() {
+        Loader fileLoader = new Loader();
+        fileLoader.openChooserDialogue();
+        return fileLoader;
+    }
 
     /**
-     * Asks the user to enter the Input file's absolute path.
+     * Parses the file and returns
      * */
-    public static void getFile() {
-        Scanner scanner = new Scanner(System.in);
-        stream.println("Enter your file path:");
-        stream.flush();
-        filePath = scanner.nextLine();
+    public static void parseFile(ArrayList<String> instructionsList, Parser.Mode parsingMode) {
+        Parser.getInstance().parse(instructionsList, parsingMode);
+    }
 
-        while (filePath.isEmpty()) {
-            stream.println("Please enter a valid file path");
-            filePath = scanner.nextLine();
-        }
-//        stream.println("You entered a file in path:  \""+ filePath + "\"");
+    private static OutputGenerator generateOutputFile(String fileParentPath, String fileName) {
+        OutputGenerator outputGenerator = new OutputGenerator(fileParentPath, fileName);
+        outputGenerator.generateSymbolFile();
+        outputGenerator.terminal.showAddressFile();
+        outputGenerator.terminal.showSymbolFile();
+        return outputGenerator;
+    }
+
+    private static void start(OutputGenerator outputGenerator, ObjectCodeGenerator objectCodeGenerator) {
+        Writer fileWriter = new Writer(outputGenerator);
+        fileWriter.writeAddressFile();
+        fileWriter.writeSymbolFile();
+        fileWriter.writeObjectCodeFile(objectCodeGenerator);
     }
 
 }

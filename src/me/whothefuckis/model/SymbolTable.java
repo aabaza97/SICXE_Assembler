@@ -1,5 +1,6 @@
 package me.whothefuckis.model;
 
+import me.whothefuckis.manager.LocationCounter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -54,7 +55,10 @@ public class SymbolTable {
                //TODO: Should create a logger file to imply error location.
                 return;
             }
-            //TODO: Put in symbol table....
+            symbolTable.put(
+                    label,
+                    new Symbol(label, LocationCounter.getInstance().getCurrentAddress())
+            );
         }
     }
 

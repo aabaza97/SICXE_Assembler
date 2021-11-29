@@ -20,7 +20,7 @@ public class Assembler {
      * Parser
      * PassOne
      * PassTwo
-     * 
+     *
     * */
     private String LABEL = "1234567890", OPCODE = "nay", OPERAND = "stop";
     private String ioFormat = "%9d\t%-9s\t%-9s\t%-9s\t";
